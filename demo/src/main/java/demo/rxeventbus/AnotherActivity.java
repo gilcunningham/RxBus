@@ -34,6 +34,8 @@ public class AnotherActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_another);
 
+        RxEventBus.subscribe(this);
+
         pingActivityBtn = (Button)findViewById(R.id.pingActivityBtn);
         pingActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,10 +45,11 @@ public class AnotherActivity extends AppCompatActivity {
             }
         });
 
-        pingServiceBtn = (Button)findViewById(R.id.pingServceBtn);
+        pingServiceBtn = (Button)findViewById(R.id.pingServiceBtn);
         pingServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("*** PING SERVICE");
                 RxEventBus.publish(new ActivityToServiceEvent("*** Hello from " + getClass().getName()));
             }
         });
@@ -59,6 +62,13 @@ public class AnotherActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        RxEventBus.unsubscribe(this);
     }
 
     @Override

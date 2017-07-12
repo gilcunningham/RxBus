@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import java.util.logging.Logger;
 
+import demo.rxeventbus.event.ActivityEvent;
 import demo.rxeventbus.event.ActivityToServiceEvent;
 import demo.rxeventbus.event.ServiceToActivityEvent;
 import rxeventbus.RxEventBus;
@@ -119,12 +120,10 @@ public class MainActivity extends AppCompatActivity {
         stopService(i);
     }
 
-    /**
     @Subscribe
     public void onActivityEvent(ActivityEvent ae) {
         log.info("In " + getClass().getName() + " onActivityEvent() ActivityEvent.message = " + ae.getMessage());
     }
-    **/
 
     @Subscribe
     public void onServiceEvent(ServiceToActivityEvent fse) {

@@ -7,8 +7,10 @@ import android.support.annotation.Nullable;
 
 import java.util.logging.Logger;
 
+import demo.rxeventbus.event.ActivityToServiceEvent;
 import demo.rxeventbus.event.ServiceToActivityEvent;
 import rxeventbus.RxEventBus;
+import rxeventbus.annotation.Subscribe;
 
 /**
  * Created by gil.cunningham on 6/7/2017.
@@ -79,12 +81,11 @@ public class DemoService extends Service {
         return null;
     }
 
-    /**
     @Subscribe
     public void onActivityEvent(ActivityToServiceEvent ae) {
         log.info("In " + getClass().getName() + " onActivityEvent() ActivityEvent.message = " + ae.getMessage());
 
         RxEventBus.publish("*** PING BACK - RECEIVED " + ae.getMessage());
     }
-    **/
+
 }
