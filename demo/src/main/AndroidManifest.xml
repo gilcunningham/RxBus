@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="demo.rxeventbus">
+    package="demo.rxbus">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="demo.rxbus.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,9 +19,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AnotherActivity" />
+        <activity android:name="demo.rxbus.AnotherActivity" />
 
-        <service android:name=".DemoService" />
+        <service android:name="demo.rxbus.DemoService" />
 
     </application>
 

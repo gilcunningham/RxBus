@@ -1,4 +1,4 @@
-package demo.rxeventbus;
+package demo.rxbus;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,11 +11,11 @@ import android.widget.Button;
 
 import java.util.logging.Logger;
 
-import demo.rxeventbus.event.ActivityEvent;
-import demo.rxeventbus.event.ServiceToActivityEvent;
-import demo.rxeventbus.event.ActivityToServiceEvent;
-import rxeventbus.RxEventBus;
-import rxeventbus.annotation.Subscribe;
+import demo.rxbus.event.ActivityEvent;
+import demo.rxbus.event.ServiceToActivityEvent;
+import demo.rxbus.event.ActivityToServiceEvent;
+import rxbus.RxBus;
+import rxbus.annotation.Subscribe;
 
 /**
  * Created by gil.cunningham on 6/7/2017.
@@ -34,14 +34,14 @@ public class AnotherActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_another);
 
-        RxEventBus.subscribe(this);
+        RxBus.subscribe(this);
 
         pingActivityBtn = (Button)findViewById(R.id.pingActivityBtn);
         pingActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("*** PING ACTIVITY 1");
-                RxEventBus.publish(new ActivityEvent("*** message from Activity 2"));
+                RxBus.publish(new ActivityEvent("*** message from Activity 2"));
             }
         });
 
@@ -50,7 +50,7 @@ public class AnotherActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("*** PING SERVICE");
-                RxEventBus.publish(new ActivityToServiceEvent("*** Hello from " + getClass().getName()));
+                RxBus.publish(new ActivityToServiceEvent("*** Hello from " + getClass().getName()));
             }
         });
 
@@ -68,7 +68,7 @@ public class AnotherActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
 
-        RxEventBus.unsubscribe(this);
+        RxBus.unsubscribe(this);
     }
 
     @Override

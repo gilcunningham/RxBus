@@ -1,4 +1,4 @@
-package demo.rxeventbus.event;
+package demo.rxbus.event;
 
 /**
  * Created by gil.cunningham on 6/7/2017.

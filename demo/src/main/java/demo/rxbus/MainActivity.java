@@ -1,4 +1,4 @@
-package demo.rxeventbus;
+package demo.rxbus;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +13,11 @@ import android.widget.Button;
 
 import java.util.logging.Logger;
 
-import demo.rxeventbus.event.ActivityEvent;
-import demo.rxeventbus.event.ActivityToServiceEvent;
-import demo.rxeventbus.event.ServiceToActivityEvent;
-import rxeventbus.RxEventBus;
-import rxeventbus.annotation.Subscribe;
+import demo.rxbus.event.ActivityEvent;
+import demo.rxbus.event.ActivityToServiceEvent;
+import demo.rxbus.event.ServiceToActivityEvent;
+import rxbus.RxBus;
+import rxbus.annotation.Subscribe;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        RxEventBus.subscribe(this);
+        RxBus.subscribe(this);
 
         launchActivityBtn = (Button)findViewById(R.id.launchActivityBtn);
         launchActivityBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         pingServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxEventBus.publish(new ActivityToServiceEvent("*** Hello from " + getClass().getName()));
+                RxBus.publish(new ActivityToServiceEvent("*** Hello from " + getClass().getName()));
             }
         });
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
 
-        RxEventBus.unsubscribe(this);
+        RxBus.unsubscribe(this);
     }
 
     @Override

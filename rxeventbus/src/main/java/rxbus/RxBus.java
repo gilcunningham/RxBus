@@ -1,4 +1,4 @@
-package rxeventbus;
+package rxbus;
 
 import android.support.annotation.NonNull;
 
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
-import rxeventbus.annotation.Subscribe;
+import rxbus.annotation.Subscribe;
 
 /**
  * @author gil.cunningham@gmail.com
@@ -27,7 +27,7 @@ import rxeventbus.annotation.Subscribe;
  * above a public method that takes a single parameter.
  */
 
-public final class RxEventBus {
+public final class RxBus {
 
     // Observable by Class (event)
     private static final Map<Class, PublishSubject<Object>> eventObservables = new ConcurrentHashMap<>();
@@ -75,17 +75,11 @@ public final class RxEventBus {
      * Publish a SomeMessage event to receiver(s):
      *
      * <b>
-     * RxEventBus.publish(new SomeMesssage("Here is the message"));
+     * RxBus.publish(new SomeMesssage("Here is the message"));
      * </b>
      */
     public static void publish(@NonNull Object message) {
-
-        System.out.println("**** PUBLISH - " + message);
-
         getSubject(message.getClass()).onNext(message);
-
-        //getSubject(message.getClass()).onComplete();
-        //getSubject(message.getClass()).onComplete();
     }
 
     /**
@@ -96,9 +90,6 @@ public final class RxEventBus {
      * </b>
      */
     public static void unsubscribe(@NonNull Object receiver) {
-
-        System.out.println("**** UNSUBSCRIBE - " + receiver);
-
         // remove all receivers subscribers
         List<Subscriber> receiverSubscribers = getAllSubscribers(receiver);
 
@@ -135,17 +126,10 @@ public final class RxEventBus {
      */
     @NonNull
     private static PublishSubject<Object> getSubject(Class event) {
-
-        System.out.println("*** getSubject() - " + event);
-
         PublishSubject<Object> subject = eventObservables.get(event);
         if (subject == null) {
-            System.out.println("**** PublishSubject is NULL");
             subject = PublishSubject.create();
             eventObservables.put(event, subject);
-        }
-        else {
-            System.out.println("**** PublishSubject is NOT NULL");
         }
 
         return subject;
@@ -165,7 +149,6 @@ public final class RxEventBus {
             subscriptions = new ArrayList<>();
             receiverSubscriptions.put(receiver, subscriptions);
         }
-
         return subscriptions;
     }
 
@@ -205,23 +188,7 @@ public final class RxEventBus {
         return subscribers;
     }
 
-    /**
-    private static void addSubscriptionForReceiver(Object receiver, Disposable subscription) {
-        List<Disposable> subscriptions = subscriptionsByReceiver.get(receiver);
-
-        if (subscriptions == null) {
-            subscriptions = new CopyOnWriteArrayList<>();
-            subscriptionsByReceiver.put(receiver, subscriptions);
-        }
-
-        subscriptions.add(subscription);
-    }
-    **/
-
     private static void addSubscriber(Subscriber subscriber) {
-
-        System.out.println("*** addSubscriber(): " + subscriber.getId() + " for event - " + subscriber.getEvent());
-
         List<Subscriber> subscribers = eventSubscribers.get(subscriber.getEvent());
 
         if (subscribers == null) {
@@ -242,26 +209,14 @@ public final class RxEventBus {
         return new Consumer() {
             @Override
             public void accept(Object event) {
-                System.out.println("******* accept() ***********");
-                System.out.println("**** event.getClass() == " + event.getClass());
                 // get {@link List} of {@link Subscriber}s for this event
-                List<Subscriber> subscriberList = eventSubscribers.get(event.getClass());
-
-                /////
-
-                for (Subscriber subscriber : subscriberList) {
-                    System.out.println("*** SUBSCRIBER = " + subscriber);
-                }
-                System.out.println("**************************");
-                /////
+                List<Subscriber> subscribers = eventSubscribers.get(event.getClass());
 
                 // invoke event for Subscriber
-                for (Subscriber subscriber : subscriberList) {
-                    Object res = subscriber.invoke(event);
+                for (Subscriber s : subscribers) {
+                    Object res = s.invoke(event);
                 }
-
             }
         };
-        //return action;
     }
 }

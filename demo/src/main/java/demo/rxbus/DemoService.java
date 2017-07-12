@@ -1,4 +1,4 @@
-package demo.rxeventbus;
+package demo.rxbus;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,10 +7,10 @@ import android.support.annotation.Nullable;
 
 import java.util.logging.Logger;
 
-import demo.rxeventbus.event.ActivityToServiceEvent;
-import demo.rxeventbus.event.ServiceToActivityEvent;
-import rxeventbus.RxEventBus;
-import rxeventbus.annotation.Subscribe;
+import demo.rxbus.event.ActivityToServiceEvent;
+import demo.rxbus.event.ServiceToActivityEvent;
+import rxbus.RxBus;
+import rxbus.annotation.Subscribe;
 
 /**
  * Created by gil.cunningham on 6/7/2017.
@@ -28,7 +28,7 @@ public class DemoService extends Service {
 
         log.info("DemoService started()");
 
-        RxEventBus.subscribe(this);
+        RxBus.subscribe(this);
 
         dt = new DemoThread();
         dt.start();
@@ -40,7 +40,7 @@ public class DemoService extends Service {
         boolean alive = false;
 
         void start() {
-            RxEventBus.publish(new ServiceToActivityEvent("*** DemoService.starting()"));
+            RxBus.publish(new ServiceToActivityEvent("*** DemoService.starting()"));
 
             alive = true;
             t = new Thread(this);
@@ -49,7 +49,7 @@ public class DemoService extends Service {
 
         public void run() {
             while (alive) {
-                RxEventBus.publish(new ServiceToActivityEvent("*** DemoService.run()"));
+                RxBus.publish(new ServiceToActivityEvent("*** DemoService.run()"));
 
                 try { Thread.sleep(10000); }
                 catch (Exception e) {}
@@ -57,7 +57,7 @@ public class DemoService extends Service {
         }
 
         void stop() {
-            RxEventBus.publish(new ServiceToActivityEvent("*** DemoService.stopping()"));
+            RxBus.publish(new ServiceToActivityEvent("*** DemoService.stopping()"));
             t.interrupt();
             alive = false;
         }
@@ -67,7 +67,7 @@ public class DemoService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        RxEventBus.unsubscribe(this);
+        RxBus.unsubscribe(this);
 
         if (dt != null) {
             dt.stop();
@@ -85,7 +85,7 @@ public class DemoService extends Service {
     public void onActivityEvent(ActivityToServiceEvent ae) {
         log.info("In " + getClass().getName() + " onActivityEvent() ActivityEvent.message = " + ae.getMessage());
 
-        RxEventBus.publish("*** PING BACK - RECEIVED " + ae.getMessage());
+        RxBus.publish("*** PING BACK - RECEIVED " + ae.getMessage());
     }
 
 }

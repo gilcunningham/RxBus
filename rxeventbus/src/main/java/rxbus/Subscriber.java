@@ -1,4 +1,4 @@
-package rxeventbus;
+package rxbus;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
