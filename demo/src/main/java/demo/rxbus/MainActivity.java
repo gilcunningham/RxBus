@@ -13,7 +13,7 @@ import android.widget.Button;
 
 import java.util.logging.Logger;
 
-import demo.rxbus.event.ActivityEvent;
+import demo.rxbus.event.ActivityToActivityEvent;
 import demo.rxbus.event.ActivityToServiceEvent;
 import demo.rxbus.event.ServiceToActivityEvent;
 import rxbus.RxBus;
@@ -111,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startService() {
+        System.out.println("************************************");
+        System.out.println("********** startService() **********");
+        System.out.println("************************************");
+
         Intent i = new Intent(this, DemoService.class);
         startService(i);
     }
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onActivityEvent(ActivityEvent ae) {
+    public void onActivityEvent(ActivityToActivityEvent ae) {
         log.info("In " + getClass().getName() + " onActivityEvent() ActivityEvent.message = " + ae.getMessage());
     }
 

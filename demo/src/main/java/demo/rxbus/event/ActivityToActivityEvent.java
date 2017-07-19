@@ -6,7 +6,7 @@ package demo.rxbus.event;
 
 public class ActivityToActivityEvent extends Event {
 
-    public ActivityActivityEvent(String message) {
+    public ActivityToActivityEvent(String message) {
         super(message);
     }
 }

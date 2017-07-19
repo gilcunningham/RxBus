@@ -85,7 +85,7 @@ public class DemoService extends Service {
     public void onActivityEvent(ActivityToServiceEvent ae) {
         log.info("In " + getClass().getName() + " onActivityEvent() ActivityEvent.message = " + ae.getMessage());
 
-        RxBus.publish("*** PING BACK - RECEIVED " + ae.getMessage());
+        RxBus.publish(new ServiceToActivityEvent("*** PING BACK - RECEIVED " + ae.getMessage()));
     }
 
 }

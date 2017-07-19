@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="demo.rxbus.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,9 +19,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="demo.rxbus.AnotherActivity" />
+        <activity android:name=".AnotherActivity" />
 
-        <service android:name="demo.rxbus.DemoService" />
+        <service android:name=".DemoService" />
 
     </application>
 

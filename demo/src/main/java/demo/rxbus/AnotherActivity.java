@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import java.util.logging.Logger;
 
-import demo.rxbus.event.ActivityEvent;
+import demo.rxbus.event.ActivityToActivityEvent;
 import demo.rxbus.event.ServiceToActivityEvent;
 import demo.rxbus.event.ActivityToServiceEvent;
 import rxbus.RxBus;
@@ -41,7 +41,7 @@ public class AnotherActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("*** PING ACTIVITY 1");
-                RxBus.publish(new ActivityEvent("*** message from Activity 2"));
+                RxBus.publish(new ActivityToActivityEvent("*** message from Activity 2"));
             }
         });
 

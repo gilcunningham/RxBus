@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">DemoRxEventBus</string>
+    <string name="app_name">Demo RxBus</string>
     <string name="action_settings">Settings</string>
 </resources>
